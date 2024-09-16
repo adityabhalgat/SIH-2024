@@ -142,8 +142,8 @@ export default function InputSection() {
   };
 
   return (
-    <div className="w-[450px] bg-[#052f44] p-4 rounded-lg">
-      <div className="h-[300px] bg-white overflow-y-auto mb-4 p-2">
+    <div className="w-[450px] bg-[#052f44] p-4">
+      <div className="h-[496px] bg-white overflow-y-auto mb-4 p-2">
         {messages.map((msg, index) => (
           <div
             key={index}
