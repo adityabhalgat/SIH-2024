@@ -1,30 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import menuIcon from "/Navbar/menu.png";
 import homeIcon from "/Navbar/home.png";
 import logo from "/Navbar/logo.png";
 
 const Navbar = () => {
+  const [navOpen, setNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setNavOpen(!navOpen);
+  };
+
   return (
-    <nav className="bg-[#004d73] p-4 flex justify-between items-center w-[450px]">
+    <nav className="bg-[#004d73] p-4 flex justify-between items-center w-[450px] relative">
       {/* Left Section: Menu and Home Icons */}
       <div className="flex flex-col items-center space-y-2">
         {/* Menu Icon */}
-        <div>
-          <img
-            src={menuIcon}
-            alt="Menu Icon"
-            className="w-7 h-7 hover:cursor-pointer"
-          />
-        </div>
+        <button onClick={toggleNav}>
+          <img src={menuIcon} alt="Menu Icon" className="w-7 h-7" />
+        </button>
 
         {/* Home Icon */}
-        <div>
-          <img
-            src={homeIcon}
-            alt="Home Icon"
-            className="w-10 h-10 hover:cursor-pointer"
-          />
-        </div>
+        <button>
+          <img src={homeIcon} alt="Home Icon" className="w-10 h-10" />
+        </button>
       </div>
 
       {/* Center Section: Title */}
@@ -37,6 +35,15 @@ const Navbar = () => {
       <div className="w-28">
         <img src={logo} />
       </div>
+
+      {/* Menu Dropdown */}
+      {navOpen && (
+        <div className="absolute top-[60px] left-0 bg-white w-[200px] p-4 shadow-lg rounded-md z-50">
+          <button className="block w-full text-center bg-[#004d73] text-white py-2 rounded-md hover:bg-[#00384e]">
+            Login
+          </button>
+        </div>
+      )}
     </nav>
   );
 };
