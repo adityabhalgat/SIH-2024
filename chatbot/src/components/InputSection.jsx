@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import ScrollButtons from "./ScrollButtons";
 import translate from "/InputSection/translate.png";
 import mic from "/InputSection/mic.png";
 import send from "/InputSection/send.png";
@@ -142,81 +143,89 @@ export default function InputSection() {
   };
 
   return (
-    <div className="w-[450px] bg-[#052f44] p-4">
-      <div className="h-[496px] bg-white overflow-y-auto mb-4 p-2">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`mb-2 ${
-              msg.type === "user" ? "text-right" : "text-left"
-            }`}
-          >
-            <p
-              className={`inline-block ${
-                msg.type === "user"
-                  ? "bg-blue-600 text-white ml-auto"
-                  : "bg-gray-200 text-gray-800"
-              } rounded-md px-4 py-2`}
-              style={{
-                maxWidth: "75%",
-                wordWrap: "break-word",
-              }}
+    <>
+      <div className="bg-[#052f44] px-2 w-[450px]">
+        <ScrollButtons></ScrollButtons>
+      </div>
+      <div className="w-[450px] bg-[#052f44] p-4">
+        <div className="h-[496px] bg-white overflow-y-auto px-2">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`mb-2 ${
+                msg.type === "user" ? "text-right" : "text-left"
+              }`}
             >
-              {msg.text}
-            </p>
+              <p
+                className={`inline-block ${
+                  msg.type === "user"
+                    ? "bg-blue-600 text-white ml-auto"
+                    : "bg-gray-200 text-gray-800"
+                } rounded-md px-4 py-2`}
+                style={{
+                  maxWidth: "75%",
+                  wordWrap: "break-word",
+                }}
+              >
+                {msg.text}
+              </p>
+            </div>
+          ))}
+          {showQRCode && (
+            <div className="flex flex-col items-center mt-4">
+              <img src={qrCodeImage} alt="QR Code" className="w-40 h-40" />
+              <p className="mt-2 text-gray-600">
+                Please scan the QR code to complete your payment.
+              </p>
+              <p className="mt-2 text-gray-600">Time remaining: {countdown}s</p>{" "}
+              {/* Countdown display */}
+            </div>
+          )}
+          {showPaymentSuccess && (
+            <div className="flex flex-col items-center mt-4">
+              <img
+                src={paymentSuccessGif}
+                alt="Payment Successful"
+                className="h-60"
+              />
+              <p className="mt-2 text-gray-600">Your payment was successful!</p>
+              <p className="mt-2 text-gray-600 font-bold">
+                The Ticket has been sent to your Email address.
+              </p>
+            </div>
+          )}
+          {/* Empty div to help with scrolling to the bottom */}
+          <div ref={messagesEndRef} />
+        </div>
+        <div className="flex flex-row gap-4">
+          <div className="w-20 pt-2">
+            <button>
+              <img src={translate} alt="translate" />
+            </button>
           </div>
-        ))}
-        {showQRCode && (
-          <div className="flex flex-col items-center mt-4">
-            <img src={qrCodeImage} alt="QR Code" className="w-40 h-40" />
-            <p className="mt-2 text-gray-600">
-              Please scan the QR code to complete your payment.
-            </p>
-            <p className="mt-2 text-gray-600">Time remaining: {countdown}s</p>{" "}
-            {/* Countdown display */}
-          </div>
-        )}
-        {showPaymentSuccess && (
-          <div className="flex flex-col items-center mt-4">
-            <img
-              src={paymentSuccessGif}
-              alt="Payment Successful"
-              className="h-60"
+          <div className="w-72 py-5">
+            <input
+              className="w-full h-10 border-2 rounded-md p-2"
+              placeholder="Type here..."
+              value={userInput}
+              onChange={handleUserInputChange}
+              onKeyPress={handleKeyPress}
             />
-            <p className="mt-2 text-gray-600">Your payment was successful!</p>
           </div>
-        )}
-        {/* Empty div to help with scrolling to the bottom */}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="flex flex-row justify-between">
-        <div className="w-16 pt-2">
-          <button>
-            <img src={translate} alt="translate" />
-          </button>
-        </div>
-        <div className="w-72 py-5">
-          <input
-            className="w-full h-8 border-2 rounded-md p-2"
-            placeholder="Type here..."
-            value={userInput}
-            onChange={handleUserInputChange}
-            onKeyPress={handleKeyPress}
-          />
-        </div>
-        <div className="flex flex-row gap-2">
-          <div className="w-6 pt-4">
-            <button onClick={startRecognition}>
-              <img src={mic} alt="mic" />
-            </button>
-          </div>
-          <div className="w-10 pt-5 pr-2">
-            <button onClick={handleSendMessage}>
-              <img src={send} alt="send" />
-            </button>
+          <div className="flex flex-row gap-2">
+            <div className="w-7 pt-4">
+              <button onClick={startRecognition}>
+                <img src={mic} alt="mic" />
+              </button>
+            </div>
+            <div className="w-10 pt-5">
+              <button onClick={handleSendMessage}>
+                <img src={send} alt="send" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

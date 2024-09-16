@@ -8,7 +8,7 @@ import feedback from "/ActionButtons/feedback.png";
 
 export default function ActionButtons() {
   return (
-    <div className="w-[450px] bg-[#d3eaff] ">
+    <div className="w-[450px] bg-[#d3eaff] pb-3">
       <div className="text-center pb-5">
         <h1 className="text-2xl font-bold">Looking for something else?</h1>
       </div>
