@@ -3,7 +3,7 @@ import menuIcon from "/Navbar/menu.png";
 import homeIcon from "/Navbar/home.png";
 import logo from "/Navbar/logo.png";
 
-const Navbar = () => {
+const Navbar = ({ onHomeClick }) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const toggleNav = () => {
@@ -20,7 +20,7 @@ const Navbar = () => {
         </button>
 
         {/* Home Icon */}
-        <button>
+        <button onClick={onHomeClick}>
           <img src={homeIcon} alt="Home Icon" className="w-10 h-10" />
         </button>
       </div>

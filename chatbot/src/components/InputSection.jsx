@@ -8,8 +8,8 @@ export default function InputSection() {
   const [userInput, setUserInput] = useState("");
   const [step, setStep] = useState(0);
   const [userName, setUserName] = useState("");
-  const [firstInteraction, setFirstInteraction] = useState(false); // New state to track first interaction
-
+  const [firstInteraction, setFirstInteraction] = useState(false);
+  
   // Ref to scroll to the bottom
   const messagesEndRef = useRef(null);
 
@@ -27,11 +27,11 @@ export default function InputSection() {
       addUserMessage(userInput);
       if (!firstInteraction) {
         setFirstInteraction(true);
-        processBotResponse(null); // Trigger initial bot message after first user input
+        processBotResponse(null);
       } else {
         processBotResponse(userInput.trim());
       }
-      setUserInput(""); // Clear the input field
+      setUserInput("");
     }
   };
 
@@ -61,30 +61,50 @@ export default function InputSection() {
         addBotMessage("Hello! Welcome to the museum ticket booking service.");
         setTimeout(() => {
           addBotMessage("What’s your name?");
-          setStep(1); // Set step for name input
+          setStep(1);
         }, 1000);
       } else if (step === 1) {
         setUserName(input);
-        addBotMessage(
-          `Nice to meet you, ${input}! Which museum would you like to visit?`
-        );
-        setStep(2); // Next step for choosing the museum
+        addBotMessage(`Nice to meet you, ${input}! Which museum would you like to visit?`);
+        setStep(2);
       } else if (step === 2) {
-        addBotMessage(
-          `Great choice! What date would you like to book for the ${input}?`
-        );
-        setStep(3); // Step for selecting the date
+        addBotMessage(`Great choice! What date would you like to book for the ${input}?`);
+        setStep(3);
       } else if (step === 3) {
-        addBotMessage(
-          `Booking for ${input}. Here are the available prices: $20 for adults, $10 for children.`
-        );
+        addBotMessage(`Booking for ${input}. Here are the available prices: $20 for adults, $10 for children.`);
         addBotMessage(`Would you like to confirm the booking, ${userName}?`);
-        setStep(4); // Confirmation step
+        setStep(4);
       } else if (step === 4) {
         addBotMessage(`Thank you, ${userName}. Your booking is confirmed!`);
-        setStep(5); // End of conversation
+        setStep(5);
       }
     }, 800); // Simulated delay for bot typing
+  };
+
+  // Speech recognition functionality
+  const startRecognition = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("Speech Recognition API is not supported in this browser.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US"; // Set language
+    recognition.interimResults = false; // Only capture full results
+    recognition.maxAlternatives = 1; // Single result
+
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const speechResult = event.results[0][0].transcript;
+      setUserInput(speechResult); // Update input field with the recognized speech
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Error occurred in recognition:", event.error);
+    };
   };
 
   return (
@@ -103,16 +123,12 @@ export default function InputSection() {
                   ? "bg-blue-600 text-white ml-auto"
                   : "bg-gray-200 text-gray-800"
               } rounded-md px-4 py-2`}
-              style={{
-                maxWidth: "75%",
-                wordWrap: "break-word",
-              }}
+              style={{ maxWidth: "75%", wordWrap: "break-word" }}
             >
               {msg.text}
             </p>
           </div>
         ))}
-        {/* Empty div to help with scrolling to the bottom */}
         <div ref={messagesEndRef} />
       </div>
       <div className="flex flex-row justify-between">
@@ -132,7 +148,7 @@ export default function InputSection() {
         </div>
         <div className="flex flex-row gap-2">
           <div className="w-6 pt-4">
-            <button>
+            <button onClick={startRecognition}>
               <img src={mic} alt="mic" />
             </button>
           </div>
