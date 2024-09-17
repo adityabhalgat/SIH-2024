@@ -1,48 +1,45 @@
 import React, { useState, useRef, useEffect } from "react";
 import ScrollButtons from "./ScrollButtons";
-import translate from "/InputSection/translate.png";
 import mic from "/InputSection/mic.png";
 import send from "/InputSection/send.png";
-import qrCodeImage from "/InputSection/qrCode.png"; // Import the QR code image
-import paymentSuccessGif from "/InputSection/paymentSuccess.gif"; // Import the payment success GIF
+import qrCodeImage from "/InputSection/qrCode.png";
+import paymentSuccessGif from "/InputSection/paymentSuccess.gif";
+import LangDropdown from "./LangDropdown"; // Import the new LanguageDropdown component
 
 export default function InputSection() {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [step, setStep] = useState(0);
   const [userName, setUserName] = useState("");
-  const [firstInteraction, setFirstInteraction] = useState(false); // New state to track first interaction
-  const [showQRCode, setShowQRCode] = useState(false); // State to control QR code display
-  const [qrCodeTimer, setQRCodeTimer] = useState(null); // State for the QR code timer
-  const [countdown, setCountdown] = useState(10); // State for countdown timer
-  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false); // State for payment success GIF
+  const [firstInteraction, setFirstInteraction] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [qrCodeTimer, setQRCodeTimer] = useState(null);
+  const [countdown, setCountdown] = useState(10);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
 
-  // Ref to scroll to the bottom
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to the bottom of the messages container whenever messages change
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
     if (showQRCode) {
-      // Start countdown timer
       const countdownInterval = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown <= 1) {
-            clearInterval(countdownInterval); // Stop the interval when countdown is complete
-            setShowQRCode(false); // Hide QR code
-            setShowPaymentSuccess(true); // Show payment success GIF
+            clearInterval(countdownInterval);
+            setShowQRCode(false);
+            setShowPaymentSuccess(true);
             addBotMessage(`Thank you, ${userName}. Your booking is confirmed!`);
-            setStep(5); // Move to step 5
+            setStep(5);
             return 0;
           }
           return prevCountdown - 1;
         });
-      }, 1000); // Update every second
+      }, 1000);
 
-      return () => clearInterval(countdownInterval); // Clean up interval on unmount
+      return () => clearInterval(countdownInterval);
     }
   }, [showQRCode]);
 
@@ -55,11 +52,11 @@ export default function InputSection() {
       addUserMessage(userInput);
       if (!firstInteraction) {
         setFirstInteraction(true);
-        processBotResponse(null); // Trigger initial bot message after first user input
+        processBotResponse(null);
       } else {
         processBotResponse(userInput.trim());
       }
-      setUserInput(""); // Clear the input field
+      setUserInput("");
     }
   };
 
@@ -89,33 +86,32 @@ export default function InputSection() {
         addBotMessage("Hello! Welcome to the museum ticket booking service.");
         setTimeout(() => {
           addBotMessage("What’s your name?");
-          setStep(1); // Set step for name input
+          setStep(1);
         }, 1000);
       } else if (step === 1) {
         setUserName(input);
         addBotMessage(
           `Nice to meet you, ${input}! Which museum would you like to visit?`
         );
-        setStep(2); // Next step for choosing the museum
+        setStep(2);
       } else if (step === 2) {
         addBotMessage(
           `Great choice! What date would you like to book for the ${input}?`
         );
-        setStep(3); // Step for selecting the date
+        setStep(3);
       } else if (step === 3) {
         addBotMessage(
           `Booking for ${input}. Here are the available prices: ₹100 for adults, ₹50 for children.`
         );
         addBotMessage(`Would you like to confirm the booking, ${userName}?`);
-        setStep(4); // Show QR code and move to step 4 after timer
+        setStep(4);
       } else if (step === 4) {
-        setShowQRCode(true); // Show QR code and start the timer
+        setShowQRCode(true);
         setStep(5);
       }
-    }, 800); // Simulated delay for bot typing
+    }, 800);
   };
 
-  // Speech recognition functionality
   const startRecognition = () => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -126,15 +122,15 @@ export default function InputSection() {
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = "en-US"; // Set language
-    recognition.interimResults = false; // Only capture full results
-    recognition.maxAlternatives = 1; // Single result
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
     recognition.start();
 
     recognition.onresult = (event) => {
       const speechResult = event.results[0][0].transcript;
-      setUserInput(speechResult); // Update input field with the recognized speech
+      setUserInput(speechResult);
     };
 
     recognition.onerror = (event) => {
@@ -145,7 +141,7 @@ export default function InputSection() {
   return (
     <>
       <div className="bg-[#052f44] px-2 w-[450px]">
-        <ScrollButtons></ScrollButtons>
+        <ScrollButtons />
       </div>
       <div className="w-[450px] bg-[#052f44] p-4">
         <div className="h-[496px] bg-white overflow-y-auto px-2">
@@ -177,8 +173,7 @@ export default function InputSection() {
               <p className="mt-2 text-gray-600">
                 Please scan the QR code to complete your payment.
               </p>
-              <p className="mt-2 text-gray-600">Time remaining: {countdown}s</p>{" "}
-              {/* Countdown display */}
+              <p className="mt-2 text-gray-600">Time remaining: {countdown}s</p>
             </div>
           )}
           {showPaymentSuccess && (
@@ -194,16 +189,13 @@ export default function InputSection() {
               </p>
             </div>
           )}
-          {/* Empty div to help with scrolling to the bottom */}
           <div ref={messagesEndRef} />
         </div>
         <div className="flex flex-row gap-4">
           <div className="w-20 pt-2">
-            <button>
-              <img src={translate} alt="translate" />
-            </button>
+            <LangDropdown /> {/* Added LanguageDropdown component */}
           </div>
-          <div className="w-72 py-5">
+          <div className="w-full py-5">
             <input
               className="w-full h-10 border-2 rounded-md p-2"
               placeholder="Type here..."
@@ -213,12 +205,12 @@ export default function InputSection() {
             />
           </div>
           <div className="flex flex-row gap-2">
-            <div className="w-7 pt-4">
+            <div className="w-8 pt-6">
               <button onClick={startRecognition}>
                 <img src={mic} alt="mic" />
               </button>
             </div>
-            <div className="w-10 pt-5">
+            <div className="w-8 pt-6">
               <button onClick={handleSendMessage}>
                 <img src={send} alt="send" />
               </button>
