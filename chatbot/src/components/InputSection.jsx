@@ -144,7 +144,7 @@ export default function InputSection() {
         <ScrollButtons />
       </div>
       <div className="w-[450px] bg-[#052f44] p-4">
-        <div className="h-[496px] bg-white overflow-y-auto px-2">
+        <div className="h-[496px] bg-white overflow-y-auto p-2 custom-scrollbar">
           {messages.map((msg, index) => (
             <div
               key={index}

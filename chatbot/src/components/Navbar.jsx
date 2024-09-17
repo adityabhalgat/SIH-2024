@@ -11,7 +11,7 @@ const Navbar = ({ onHomeClick }) => {
   };
 
   return (
-    <nav className="bg-[#004d73] p-4 flex justify-between items-center w-[451px] sticky top-0 z-20 ">
+    <nav className="bg-[#004d73] px-4 py-2 flex justify-between items-center w-[451px] sticky top-0 z-20 ">
       {/* Left Section: Menu and Home Icons */}
       <div className="flex flex-col items-center space-y-2">
         {/* Menu Icon */}
