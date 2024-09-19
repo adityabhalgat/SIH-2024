@@ -139,11 +139,11 @@ export default function InputSection() {
   };
 
   return (
-    <>
+    <div className="z-10">
       <div className="bg-[#052f44] px-2 w-[450px]">
         <ScrollButtons />
       </div>
-      <div className="w-[450px] bg-[#052f44] p-4">
+      <div className="w-[450px] bg-[#052f44] px-4 pt-4">
         <div className="h-[496px] bg-white overflow-y-auto p-2 custom-scrollbar">
           {messages.map((msg, index) => (
             <div
@@ -206,18 +206,24 @@ export default function InputSection() {
           </div>
           <div className="flex flex-row gap-2">
             <div className="w-8 pt-6">
-              <button onClick={startRecognition}>
+              <button
+                onClick={startRecognition}
+                className="duration-500 hover:scale-125"
+              >
                 <img src={mic} alt="mic" />
               </button>
             </div>
             <div className="w-8 pt-6">
-              <button onClick={handleSendMessage}>
+              <button
+                onClick={handleSendMessage}
+                className="duration-500 hover:scale-125"
+              >
                 <img src={send} alt="send" />
               </button>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -34,7 +34,11 @@ const LanguageDropdown = () => {
             isOpen ? "bg-[#1e3a8a]" : "bg-[#346db3]"
           } rounded-md`}
         >
-          <img src={translate} alt="Translate" className="w-6 h-6" />
+          <img
+            src={translate}
+            alt="Translate"
+            className="w-6 h-6 duration-500 hover:scale-125"
+          />
         </button>
       </div>
       <div
@@ -48,7 +52,7 @@ const LanguageDropdown = () => {
         <div className="flex flex-col justify-center items-center p-4 gap-4">
           <button
             onClick={() => handleLanguageChange("English")}
-            className={`px-4 py-2 w-24 rounded-full hover:bg-[#3973bb] hover:rounded-full hover:font-bold text-gray-800 transition ${
+            className={`px-4 py-2 w-24 rounded-full hover:bg-[#3973bb] duration-500 hover:scale-110 hover:rounded-full hover:font-bold text-gray-800 transition ${
               currentLanguage == "English" ? "bg-[#3973bb] font-bold" : ""
             }`}
           >
@@ -56,7 +60,7 @@ const LanguageDropdown = () => {
           </button>
           <button
             onClick={() => handleLanguageChange("English")}
-            className={`px-4 py-2 w-24 rounded-full hover:bg-[#3973bb] hover:rounded-full hover:font-bold text-gray-800 transition ${
+            className={`px-4 py-2 w-24 rounded-full hover:bg-[#3973bb] duration-500 hover:scale-110 hover:rounded-full hover:font-bold text-gray-800 transition ${
               currentLanguage == "Hindi" ? "bg-[#3973bb] font-bold" : ""
             }`}
           >

@@ -27,13 +27,13 @@ export default function ScrollButtons() {
     <div className="sticky top-[0] w-full h-[48px] px-10 py-2 overflow-hidden">
       <button
         onClick={scrollLeft}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 p-1 border border-gray-400 rounded-full hover:bg-[#d3eaff]"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 p-1 border border-gray-400 rounded-full duration-500 hover:scale-125 hover:ml-1 hover:bg-[#d3eaff]"
       >
         <FaArrowLeft />
       </button>
       <button
         onClick={scrollRight}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 border border-gray-400 rounded-full hover:bg-[#d3eaff]"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 border border-gray-400 rounded-full duration-500 hover:scale-125 hover:mr-1 hover:bg-[#d3eaff]"
       >
         <FaArrowRight />
       </button>

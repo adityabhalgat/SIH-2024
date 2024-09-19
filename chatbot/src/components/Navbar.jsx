@@ -15,12 +15,12 @@ const Navbar = ({ onHomeClick }) => {
       {/* Left Section: Menu and Home Icons */}
       <div className="flex flex-col items-center space-y-2">
         {/* Menu Icon */}
-        <button onClick={toggleNav}>
+        <button className="duration-500 hover:scale-125" onClick={toggleNav}>
           <img src={menuIcon} alt="Menu Icon" className="w-7 h-7" />
         </button>
 
         {/* Home Icon */}
-        <button onClick={onHomeClick}>
+        <button className="duration-500 hover:scale-125" onClick={onHomeClick}>
           <img src={homeIcon} alt="Home Icon" className="w-10 h-10" />
         </button>
       </div>

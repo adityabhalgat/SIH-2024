@@ -16,7 +16,7 @@ export default function MyBookings() {
           <img
             src={icon}
             alt="Dropdown Icon"
-            className={`w-10 mx-5 transform transition-transform duration-300 ${
+            className={`hover:scale-125 w-10 mx-5 transform transition-transform duration-300 ${
               dropdownOpen ? "rotate-180" : ""
             }`}
           />
